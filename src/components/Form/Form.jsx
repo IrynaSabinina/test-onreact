@@ -79,7 +79,9 @@ export const FormEl = () => {
             className={styles.btn}
             style={{
               backgroundColor:
-                String(raiting) === 'medium' || String(raiting) === 'strong'
+                String(raiting) === 'medium' ||
+                String(raiting) === 'strong' ||
+                value.length < 8
                   ? String(color)
                   : 'gray',
               width: '200px',
@@ -95,7 +97,9 @@ export const FormEl = () => {
             className={styles.btn}
             style={{
               backgroundColor:
-                String(raiting) === 'strong' ? String(color) : 'gray',
+                String(raiting) === 'strong' || value.length < 8
+                  ? String(color)
+                  : 'gray',
               width: '300px',
             }}
           >
