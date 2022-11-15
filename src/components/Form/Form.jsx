@@ -1,85 +1,112 @@
+import React from 'react';
+import { useEffect } from 'react';
 import { useState } from 'react';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 
 import styles from './Form.module.css';
-import { useSelector, useDispatch } from 'react-redux';
-import { addContactThunk } from '../../redux/thunks/contatsThunks/thunks';
-import { contactsSelector } from '../../redux/selectors';
 
 export const FormEl = () => {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-  const contacts = useSelector(contactsSelector);
+  const [value, setValue] = useState('');
+  const [color, setColor] = useState('gray');
+  const [raiting, setRaiting] = useState('');
 
-  const dispatch = useDispatch();
+  useEffect(() => {
+    setValue(value);
+    setRaiting(raiting);
+  }, [value, raiting]);
 
-  const handleChange = event => {
-    const { name, value } = event.target;
-    switch (name) {
-      case 'name':
-        setName(value);
-        break;
-      case 'number':
-        setNumber(value);
-        break;
-      default:
-        return;
+  const handleInputChange = event => {
+    event.preventDefault();
+    const password = event.target.value;
+    setValue(password);
+    console.log(password.length);
+    const lettersLow = 'qwertyuiopasdfghjklzxcvbnm';
+    const lettersUp = 'QWERTYUIOPLKJHGFDSAZXCVBNM';
+    const digits = '0123456789';
+    const symbols = '!@#$%^&*()_-+=|/.,:;"[]{}';
+    let isLeters = '';
+    let isSymbols = '';
+    let isDigits = '';
+    for (let i = 0; i < password.length; i++) {
+      if (lettersLow.includes(password[i]) || lettersUp.includes(password[i])) {
+        isLeters = 'true';
+      } else if (digits.includes(password[i])) {
+        isDigits = 'true';
+      } else if (symbols.includes(password[i])) {
+        isSymbols = 'true';
+      }
     }
-  };
-
-  const handleSubmit = evt => {
-    evt.preventDefault();
-
-    const inContacts = contacts.find(
-      item => item.name.toUpperCase() === name.toUpperCase()
-    );
-
-    if (inContacts) {
-      alert('is already in your phonebook');
-      return;
-    } else {
-      dispatch(addContactThunk({ name, number }));
-      resetInput();
+    if (password.length === 0) {
+      setColor('gray');
+      setRaiting('');
+    } else if (password.length < 8) {
+      setColor('red');
+      setRaiting('');
+    } else if (isLeters && isSymbols && isDigits) {
+      setColor('green');
+      setRaiting('strong');
+    } else if (
+      (isLeters && isSymbols) ||
+      (isSymbols && isDigits) ||
+      (isLeters && isDigits)
+    ) {
+      setColor('yellow');
+      setRaiting('medium');
+    } else if (isDigits || isLeters || isSymbols) {
+      setColor('red');
+      setRaiting('easy');
     }
-  };
-
-  const resetInput = () => {
-    setName('');
-    setNumber('');
   };
 
   return (
     <>
-      <Form className={styles.form} onSubmit={handleSubmit}>
-        <Form.Label className={styles.inputIn}>
-          <Form.Text className="text-muted">Name</Form.Text>
-          <Form.Control
-            type="text"
-            name="name"
-            value={name}
-            onChange={handleChange}
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-          />
-        </Form.Label>
-        <Form.Label className={styles.inputIn}>
-          <Form.Text className="text-muted">Number</Form.Text>
-          <Form.Control
-            type="tel"
-            name="number"
-            value={number}
-            onChange={handleChange}
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
-          />
-        </Form.Label>
-        <Button variant="success" type="submit">
-          Add contacts
-        </Button>
-      </Form>
+      <div className={styles.form}>
+        <h1>Chack your Pasword</h1>
+        <input
+          className={styles.inputIn}
+          type="text"
+          name="password"
+          value={value}
+          onChange={handleInputChange}
+        />
+        <div className={styles.raiting}>
+          <div
+            className={styles.btn}
+            style={{ backgroundColor: String(color), width: '100px' }}
+          >
+            {String(raiting) === 'easy' ? <span> to easy</span> : <></>}
+          </div>
+          <div
+            className={styles.btn}
+            style={{
+              backgroundColor:
+                String(raiting) === 'medium' || String(raiting) === 'strong'
+                  ? String(color)
+                  : 'gray',
+              width: '200px',
+            }}
+          >
+            {String(raiting) === 'medium' ? (
+              <span> password is medium</span>
+            ) : (
+              <></>
+            )}
+          </div>
+          <div
+            className={styles.btn}
+            style={{
+              backgroundColor:
+                String(raiting) === 'strong' ? String(color) : 'gray',
+              width: '300px',
+            }}
+          >
+            {String(raiting) === 'strong' ? (
+              <span> password is strong</span>
+            ) : (
+              <></>
+            )}
+          </div>
+        </div>
+      </div>
     </>
   );
 };
