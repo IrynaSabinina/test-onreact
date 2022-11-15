@@ -60,7 +60,7 @@ export const FormEl = () => {
   return (
     <>
       <div className={styles.form}>
-        <h1>Chack your Pasword</h1>
+        <h1>Check your Password</h1>
         <input
           className={styles.inputIn}
           type="text"
