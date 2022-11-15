@@ -1,0 +1,10 @@
+.LoginForm {
+  padding: 15px;
+}
+
+.btnLogin {
+  background-color: green;
+}
+.btnLogin:hover {
+  transform: scale(1.3);
+}
