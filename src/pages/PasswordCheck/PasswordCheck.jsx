@@ -1,10 +1,9 @@
 import { useEffect } from 'react';
-// import { useState } from 'react';
+
 import { FormEl } from '../../components/Form/Form';
 
 import styles from '../../components/Form/Form.module.css';
 export const PasswordCheck = () => {
-  // const [firstValue, setFirstValue] = useState('gray');
   useEffect(() => {
     myFunction();
   }, []);
