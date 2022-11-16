@@ -4,21 +4,26 @@ import { useState } from 'react';
 
 import styles from './Form.module.css';
 
-export const FormEl = () => {
+export const FormEl = ({ myFunction }) => {
   const [value, setValue] = useState('');
   const [color, setColor] = useState('gray');
   const [raiting, setRaiting] = useState('');
 
   useEffect(() => {
     setValue(value);
+    setColor(color);
     setRaiting(raiting);
-  }, [value, raiting]);
+  }, [value, color, raiting]);
+
+  useEffect(() => {
+    myFunction(value, raiting);
+  });
 
   const handleInputChange = event => {
     event.preventDefault();
     const password = event.target.value;
     setValue(password);
-    console.log(password.length);
+
     const lettersLow = 'qwertyuiopasdfghjklzxcvbnm';
     const lettersUp = 'QWERTYUIOPLKJHGFDSAZXCVBNM';
     const digits = '0123456789';
@@ -57,6 +62,12 @@ export const FormEl = () => {
     }
   };
 
+  // const raitingButton = {
+  //   background: color,
+  //   width: '300px',
+  //   height: '30px',
+  // };
+
   return (
     <>
       <div className={styles.form}>
@@ -66,48 +77,18 @@ export const FormEl = () => {
           type="text"
           name="password"
           value={value}
+          placeholder="minimum 8 characters"
           onChange={handleInputChange}
         />
         <div className={styles.raiting}>
-          <div
-            className={styles.btn}
-            style={{ backgroundColor: String(color), width: '100px' }}
-          >
-            {String(raiting) === 'easy' ? <span> to easy</span> : <></>}
+          <div id="easy" className={styles.btn}>
+            {raiting === 'easy' ? <span> to easy</span> : <></>}
           </div>
-          <div
-            className={styles.btn}
-            style={{
-              backgroundColor:
-                String(raiting) === 'medium' ||
-                String(raiting) === 'strong' ||
-                value.length < 8
-                  ? String(color)
-                  : 'gray',
-              width: '200px',
-            }}
-          >
-            {String(raiting) === 'medium' ? (
-              <span> password is medium</span>
-            ) : (
-              <></>
-            )}
+          <div id="medium" className={styles.btn}>
+            {raiting === 'medium' ? <span> medium</span> : <></>}
           </div>
-          <div
-            className={styles.btn}
-            style={{
-              backgroundColor:
-                String(raiting) === 'strong' || value.length < 8
-                  ? String(color)
-                  : 'gray',
-              width: '300px',
-            }}
-          >
-            {String(raiting) === 'strong' ? (
-              <span> password is strong</span>
-            ) : (
-              <></>
-            )}
+          <div id="strong" className={styles.btn}>
+            {raiting === 'strong' ? <span> password is strong</span> : <></>}
           </div>
         </div>
       </div>

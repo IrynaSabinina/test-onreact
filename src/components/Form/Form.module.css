@@ -5,7 +5,6 @@
   justify-content: center;
   flex-direction: column;
 
-  padding: 25px;
   text-align: center;
   align-items: center;
 }
@@ -19,12 +18,30 @@
 }
 
 .btn {
-  /* background-color: gray; */
-
+  width: 100px;
+  height: 30px;
+  background-color: gray;
+  align-items: baseline;
+}
+.red {
+  background-color: red;
+  width: 100px;
   height: 30px;
 }
+
+.yellow {
+  background-color: yellow;
+  width: 100px;
+  height: 30px;
+}
+.green {
+  background-color: green;
+  width: 100px;
+  height: 30px;
+}
+
 .raiting {
   display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
+  align-items: center;
 }
